@@ -1,9 +1,11 @@
 /**
  *  Recieve the BLE signal from an iOS device, running GoBLE
  * 
- *  App: https://github.com/CainZ/GoBle
- *  Should work with GoBLE_Test, but the library is not accepted
+ *  GoBLE - Bluetooth 4.0 Controller
+ *  https://itunes.apple.com/us/app/goble-bluetooth-4-0-controller/id950937437
  * 
+ *  App: https://github.com/CainZ/GoBle
+ *  
  */
 
 #include <BLEDevice.h>
@@ -13,7 +15,7 @@
 #define SERVICE_UUID    "0000dfb0-0000-1000-8000-00805f9b34fb" // service UUID for GoBLE App
 #define SERIALPORT_UUID "0000dfb1-0000-1000-8000-00805f9b34fb" // is SerialPortID
 
-#define ledPin 2
+#define ledPin 2   // indicate Bluetooth connection
 #define motorA1 16 // RX2 unused
 #define motorA2 17 // TX2 unused
 #define motorB1 18
@@ -23,8 +25,8 @@ int dark = 300;
 boolean MotorMatrix[5][4] = {{LOW,  LOW, LOW,  LOW},
                              {HIGH, LOW, HIGH, LOW},
                              {HIGH, LOW, LOW, HIGH},
-                             {LOW, HIGH, HIGH, LOW},
-                             {LOW, HIGH, LOW, HIGH}};
+                             {LOW, HIGH, LOW, HIGH},
+                             {LOW, HIGH, HIGH, LOW}};
 
 BLEServer *pServer = NULL;
 BLECharacteristic * SerialCharacteristic;
