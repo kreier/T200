@@ -20,6 +20,11 @@
 #define motorB2 19
 
 int dark = 300;
+boolean MotorMatrix[5][4] = {{LOW,  LOW, LOW,  LOW},
+                             {HIGH, LOW, HIGH, LOW},
+                             {HIGH, LOW, LOW, HIGH},
+                             {LOW, HIGH, HIGH, LOW},
+                             {LOW, HIGH, LOW, HIGH}};
 
 BLEServer *pServer = NULL;
 BLECharacteristic * SerialCharacteristic;
@@ -29,6 +34,22 @@ uint8_t txValue = 0;
 
 int joystickX, joystickY;
 int buttonState[7];        // skip zero and confusion, button 3 = buttonState[3]
+
+void MotorDrive(int button) {
+  digitalWrite(motorA1, MotorMatrix[button][0]); 
+  digitalWrite(motorA2, MotorMatrix[button][1]); 
+  digitalWrite(motorB1, MotorMatrix[button][2]); 
+  digitalWrite(motorB2, MotorMatrix[button][3]); 
+  Serial.print("Pin 16 - 19: ");
+  Serial.print(MotorMatrix[button][0]);
+  Serial.print("  ");
+  Serial.print(MotorMatrix[button][1]);
+  Serial.print("  ");
+  Serial.print(MotorMatrix[button][2]);
+  Serial.print("  ");
+  Serial.print(MotorMatrix[button][3]);
+  Serial.println("  ");
+}
 
 class MyServerCallbacks: public BLEServerCallbacks {
     void onConnect(BLEServer* pServer) {
@@ -53,25 +74,22 @@ class MyCallbacks: public BLECharacteristicCallbacks {
         int i = rxValue[3];
         joystickX = rxValue[i + 5];
         joystickY = rxValue[i + 6];
-        // print results:
-        if (buttonState[1] > 0) { // forward
-          digitalWrite(motorA1, HIGH);
-          digitalWrite(motorB1, HIGH);
+        i = 0;
+        if (buttonState[1] > 0) i = 1; // forward
+        if (buttonState[2] > 0) i = 2; // right
+        if (buttonState[3] > 0) i = 3; // backward
+        if (buttonState[4] > 0) i = 4; // left
+        MotorDrive(i);
+
+ /**
+        if (buttonState[3] > 0) { // backward
+          digitalWrite(motorA1, HIGH); 
+          digitalWrite(motorA2, LOW); 
+          digitalWrite(motorB1, HIGH); 
+          digitalWrite(motorB2, LOW); 
         } else {
           digitalWrite(motorA1, LOW);
           digitalWrite(motorB1, LOW);
-        }
-        if (buttonState[2] > 0) { // right
-          digitalWrite(motorA2, HIGH);
-          digitalWrite(motorB1, HIGH);
-        } else {
-          digitalWrite(motorA2, LOW);
-          digitalWrite(motorB1, LOW);
-        }
-        if (buttonState[3] > 0) { // backward
-          digitalWrite(motorA2, HIGH);
-          digitalWrite(motorB2, HIGH);
-        } else {
           digitalWrite(motorA2, LOW);
           digitalWrite(motorB2, LOW);
         }
@@ -86,7 +104,7 @@ class MyCallbacks: public BLECharacteristicCallbacks {
           digitalWrite(ledPin, HIGH);
         } else {
           digitalWrite(ledPin, LOW);
-        }        
+        }   **/     
       }
    }
 };
@@ -113,9 +131,11 @@ void setup() {
                     BLECharacteristic::PROPERTY_WRITE_NR  
                     );
   SerialCharacteristic->setCallbacks(new MyCallbacks());
-
+  
+  Serial.begin(115200);
   // Start the service
   pService->start();
+  Serial.println("Service started, App should connect via BLE."); 
 
   // Start advertising
   BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
