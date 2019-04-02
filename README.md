@@ -1,6 +1,6 @@
 # T200 - ESP32 based robots
 
-This robot car uses the ESP32 to control its actions. The hardware setup is similar, but the upgrades come in software. This is an upgrade from the [T100](https://github.com/kreier/T100) that was powered by an Arduino Uno. Now we have WiFi and Bluetooth BLE build in. And way more storage for our programs.
+This robot car uses the ESP32 to control its actions. The hardware setup is similar, but the upgrades come in software. This is an upgrade from the Arduino Uno powered [T100](https://github.com/kreier/T100). Now WiFi and Bluetooth are build in. And way more storage for our programs.
 
 ![Robot](T200.jpg)
 
@@ -8,14 +8,19 @@ This robot car uses the ESP32 to control its actions. The hardware setup is simi
 
 All materials were ordered at [CỬA HÀNG IC ĐÂY RỒI](https://icdayroi.com/). This is the list:
 
-1. [Arduino UNO R3 DIP](https://icdayroi.com/arduino-uno-r3-dip) 110.000₫
-2. [Khung Xe Robot](https://icdayroi.com/khung-xe-robot) 68.000₫
-3. [Shield L293D motor arduino](https://icdayroi.com/shield-l293d-motor-arduino) 34.000₫
-4. [Module thu phát bluetooth HC-05](https://icdayroi.com/module-thu-phat-bluetooth-hc-05) 80.000₫
-5. Four 10 cm cable 0.25 mm² to connect the motors to the shield
-6. Three female-male jumper wire to connect the bluetooth module to the Arduino (+3.3V, GND, RX)
-7. So in general: some [jumper wires](https://icdayroi.com/bo-day-cam-test-board-65-soi) 19.000₫
-8. Maybe [a breadboard](https://icdayroi.com/testboard-mini-syb-170) to connect 5.000₫
+1. [Khung Xe Robot](https://icdayroi.com/khung-xe-robot) 68.000₫
+2. [Kít RF thu phát Wifi BLE ESP32](https://icdayroi.com/kit-rf-thu-phat-wifi-ble-esp32-nodemcu-luanode32) 180.000₫
+3. [Mạch điều khiển động cơ DC DRV8833](https://icdayroi.com/mach-dieu-khien-dong-co-dc-drv8833) 20.000₫ motor driver
+4. [Đế test board, bread board 85x55mm](https://icdayroi.com/de-test-board-bread-board-85x55mm) 15.000₫
+5. [jumper wires](https://icdayroi.com/bo-day-cam-test-board-65-soi) 19.000₫
+6. [Đồng hồ đo Vôn (Volt) 3.5-30V](https://icdayroi.com/dong-ho-do-von-volt-3-5-30v) 22.000 ₫
+
+This requires 324.000₫ or $14 USD. For higher speed and the use of PWM capabilities it is recommended to upgrade the powersource:
+
+7. [Pin Cell 18650 4200mAh 3.7V](https://icdayroi.com/pin-cell-18650-4200mah-3-7v) 2x 35.000 ₫
+8. [Hộp đế pin 18650 loại 2 cell](https://icdayroi.com/hop-de-pin-18650-loai-2-cell) 7.000 ₫
+
+The initial setup is wired the following:
 
 Here is the image from Fritzing missing ...
 
@@ -28,12 +33,9 @@ Here is the image from Fritzing missing ...
 * Install the software [Arduino Bluetooth Controller](https://play.google.com/store/apps/details?id=com.satech.arduinocontroller) to your Android phone
 * Connect to the bluetooth module of the robot
 * Configure the keys of the remote the following:
-  - "U" for up
-  - "D" for down
-  - "L" for left
-  - "R" for right
 
 ## Software
+
 ### T200 basic
 
 Here the robot just blinks with the LED, attached to pin 2, and drives the motors forward and backward. The motor controller is connected to pins 16, 17, 18 and 19.
