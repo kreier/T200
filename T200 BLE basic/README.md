@@ -2,7 +2,7 @@
 
 This robot car uses the ESP32 to control its actions. The hardware setup is similar, but the upgrades come in software. This is an upgrade from the Arduino Uno powered [T100](https://github.com/kreier/T100). Now WiFi and Bluetooth are build in. And way more storage for our programs.
 
-![Robot](T200.jpg)
+![Robot](../T200.jpg)
 
 ## Hardware and materials
 
