@@ -5,7 +5,6 @@
  *  https://itunes.apple.com/us/app/goble-bluetooth-4-0-controller/id950937437
  * 
  *  App: https://github.com/CainZ/GoBle
- *  
  */
 
 #include <BLEDevice.h>
@@ -82,31 +81,6 @@ class MyCallbacks: public BLECharacteristicCallbacks {
         if (buttonState[3] > 0) i = 3; // backward
         if (buttonState[4] > 0) i = 4; // left
         MotorDrive(i);
-
- /**
-        if (buttonState[3] > 0) { // backward
-          digitalWrite(motorA1, HIGH); 
-          digitalWrite(motorA2, LOW); 
-          digitalWrite(motorB1, HIGH); 
-          digitalWrite(motorB2, LOW); 
-        } else {
-          digitalWrite(motorA1, LOW);
-          digitalWrite(motorB1, LOW);
-          digitalWrite(motorA2, LOW);
-          digitalWrite(motorB2, LOW);
-        }
-        if (buttonState[4] > 0) { // left
-          digitalWrite(motorA1, HIGH);
-          digitalWrite(motorB2, HIGH);
-        } else {
-          digitalWrite(motorA1, LOW);
-          digitalWrite(motorB2, LOW);
-        }
-        if (buttonState[5] > 0) { // select
-          digitalWrite(ledPin, HIGH);
-        } else {
-          digitalWrite(ledPin, LOW);
-        }   **/     
       }
    }
 };
@@ -118,7 +92,7 @@ void setup() {
   pinMode(motorB1, OUTPUT);
   pinMode(motorB2, OUTPUT);
   // Create the BLE Device  
-  BLEDevice::init("T200 ESP32 BLE simple");
+  BLEDevice::init("T200 BLE basic");
   // Create the BLE Server - to advertise the service, that the iPhone App can connect to
   pServer = BLEDevice::createServer();
   pServer->setCallbacks(new MyServerCallbacks());
@@ -152,7 +126,7 @@ void loop() {
     if (!deviceConnected && oldDeviceConnected) {
         delay(500); // give the bluetooth stack the chance to get things ready
         pServer->startAdvertising(); // restart advertising
-        dark = 300;
+        dark = 300; // not connected
         oldDeviceConnected = deviceConnected;
     }
     digitalWrite(ledPin, HIGH);
@@ -160,7 +134,7 @@ void loop() {
     // connecting
     if (deviceConnected && !oldDeviceConnected) {
         oldDeviceConnected = deviceConnected;
-        dark = 3000;
+        dark = 3000; // connected
     }
     digitalWrite(ledPin, LOW);
     delay(dark);
